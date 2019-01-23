@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Enable Repo
+      yum_repository:
+        name: 'kubernetes'
+        description: 'Kubernetes'
+        baseurl: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64"
+        gpgcheck: yes
+        sslverify: yes
+        gpgkey: "https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
+    - name: Install Packages
+      yum:
+        name: "{{ item }}"
+      with_items:
+        - docker
+        - kubelet
+        - kubeadm
+        - kubectl
